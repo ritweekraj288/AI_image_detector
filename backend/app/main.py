@@ -3,10 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import torch
 
-from app.model import model
+# from app.model import model
+from app.model_loader import load_model
 from app.utils import preprocess_image
 
+
+
+
+
 app = FastAPI(title="AI Image Detector API")
+
+# Load model once at startup
+model = load_model()
 
 # Allow React frontend
 app.add_middleware(
