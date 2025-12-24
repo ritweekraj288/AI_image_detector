@@ -8,9 +8,6 @@ from app.model_loader import load_model
 from app.utils import preprocess_image
 
 
-
-
-
 app = FastAPI(title="AI Image Detector API")
 
 # Load model once at startup
