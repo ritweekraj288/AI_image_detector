@@ -54,7 +54,7 @@ function App() {
     setResult(null);
 
     try {
-      const res = await fetch("https://ai-image-detector-backend4.onrender.com/predict", {
+      const res = await fetch("https://ritweekraj288-ai-image-detector-backend.hf.space/predict", {
         method: "POST",
         body: formData,
       });
