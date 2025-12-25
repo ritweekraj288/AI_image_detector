@@ -4,22 +4,15 @@ from PIL import Image
 import torch
 import os
 
-from app.model_loader import load_model
+from app.model import model
 from app.utils import preprocess_image
 
 app = FastAPI(title="AI Image Detector API")
 
-# Load model if environment variable exists
-model = None
-try:
-    model = load_model()
-except RuntimeError as e:
-    print(f"Warning: {e}. /predict endpoint will not work until model is set.")
-
-# Allow React frontend
+# Allow frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten in production
+    allow_origins=["*"],  # tighten later
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -30,9 +23,6 @@ def health_check():
 
 @app.post("/predict")
 async def predict_image(file: UploadFile = File(...)):
-    if model is None:
-        return {"error": "Model not loaded. Set MODEL_GDRIVE_FILE_ID to enable prediction."}
-
     image = Image.open(file.file).convert("RGB")
     pixel_values = preprocess_image(image)
 
@@ -50,6 +40,6 @@ async def predict_image(file: UploadFile = File(...)):
     }
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # Render assigned port
     import uvicorn
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
