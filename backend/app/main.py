@@ -1,21 +1,25 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import torch
+import io
 import os
 
-from app.model import model
+from app.model import load_model
 from app.utils import preprocess_image
 
 app = FastAPI(title="AI Image Detector API")
 
-# Allow frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten later
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+def startup():
+    load_model()  # LOAD ONCE
 
 @app.get("/")
 def health_check():
@@ -23,23 +27,24 @@ def health_check():
 
 @app.post("/predict")
 async def predict_image(file: UploadFile = File(...)):
-    image = Image.open(file.file).convert("RGB")
-    pixel_values = preprocess_image(image)
+    try:
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
-    with torch.no_grad():
-        outputs = model(pixel_values)
-        logits = outputs.logits
-        probs = torch.softmax(logits, dim=1)
+        pixel_values = preprocess_image(image)
+        model, _ = load_model()
 
-    confidence, pred = torch.max(probs, dim=1)
-    label = model.config.id2label[pred.item()]
+        with torch.no_grad():
+            outputs = model(pixel_values)
+            probs = torch.softmax(outputs.logits, dim=1)
 
-    return {
-        "prediction": label,
-        "confidence": round(confidence.item() * 100, 2)
-    }
+        confidence, pred = torch.max(probs, dim=1)
+        label = model.config.id2label[pred.item()]
 
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+        return {
+            "prediction": label,
+            "confidence": round(confidence.item() * 100, 2)
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
