@@ -120,10 +120,10 @@ export default function App() {
         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <path d="M12 6v6l4 2"/>
-          </svg>
+          </svg> */}
           <span style={{ fontSize: "1.125rem", fontWeight: "600", letterSpacing: "-0.025em" }}>RitweekAI</span>
         </div>
         <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
@@ -627,10 +627,10 @@ export default function App() {
       }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "16px" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/>
               <path d="M12 6v6l4 2"/>
-            </svg>
+            </svg> */}
             <span style={{ fontSize: "1rem", fontWeight: "600" }}>RitweekAI</span>
           </div>
           <p style={{ color: "#52525b", fontSize: "0.875rem", marginBottom: "24px" }}>
