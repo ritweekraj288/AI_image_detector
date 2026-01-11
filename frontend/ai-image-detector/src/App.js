@@ -94,6 +94,8 @@ export default function App() {
   const navBg = scrollY > 50 ? "rgba(9,9,11,0.95)" : "rgba(9,9,11,0.7)";
   const navBlur = scrollY > 50 ? "blur(12px)" : "blur(8px)";
 
+  const isReal = result?.prediction?.toLowerCase() === "real";
+
   return (
     <div style={{
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -374,8 +376,18 @@ export default function App() {
             <div style={{
               marginTop: "32px",
               padding: isMobile ? "16px" : "24px",
-              background: result.prediction === "Real" ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)",
-              border: `1px solid ${result.prediction === "Real" ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
+              // background: result.prediction === "Real" ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)",
+              // border: `1px solid ${result.prediction === "Real" ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
+              background: isReal
+  ? "rgba(34,197,94,0.08)"
+  : "rgba(239,68,68,0.08)",
+
+border: `1px solid ${
+  isReal
+    ? "rgba(34,197,94,0.3)"
+    : "rgba(239,68,68,0.3)"
+}`,
+
               borderRadius: "12px"
             }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
@@ -383,7 +395,11 @@ export default function App() {
                   <div style={{ fontSize: "0.75rem", color: "#a1a1aa", fontWeight: "500", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "4px" }}>
                     Classification
                   </div>
-                  <div style={{ fontSize: isMobile ? "1.125rem" : "1.5rem", fontWeight: "600", color: result.prediction === "Real" ? "#22c55e" : "#ef4444", letterSpacing: "-0.02em" }}>
+                  <div style={{ fontSize: isMobile ? "1.125rem" : "1.5rem", fontWeight: "600", 
+                    // color: result.prediction === "Real" ? "#22c55e" : "#ef4444", 
+                    color: isReal ? "#22c55e" : "#ef4444",
+
+                    letterSpacing: "-0.02em" }}>
                     {result.prediction}
                   </div>
                 </div>
@@ -401,7 +417,9 @@ export default function App() {
                 <div style={{
                   height: "100%",
                   width: `${result.confidence}%`,
-                  background: result.prediction === "Real" ? "#22c55e" : "#ef4444",
+                  // background: result.prediction === "Real" ? "#22c55e" : "#ef4444",
+                  background: isReal ? "#22c55e" : "#ef4444",
+
                   transition: "width 0.8s cubic-bezier(0.4, 0, 0.2, 1)"
                 }} />
               </div>
