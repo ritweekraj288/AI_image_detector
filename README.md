@@ -6,10 +6,10 @@ RitweekAI is a web-based platform that allows users to upload images and determi
 **Deployed Link:** https://ritweekai.vercel.app
 
 ## Tech Stack
-- AI/ML: Custom AI model  
-- Backend: API-based service  
-- Frontend: Web interface  
-- Deployment: Cloud platform
+- AI/ML: Vision Transformer
+- Backend: FastAPI
+- Frontend: React  
+- Deployment: Vercel(frontend) and Render(backend)
 
 ## Author
 Ritweek Raj
