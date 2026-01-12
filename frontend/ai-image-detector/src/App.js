@@ -57,18 +57,6 @@ export default function App() {
     setLoading(true);
     setResult(null);
 
-    // try {
-    //   const res = await fetch(
-    //     "https://ritweekraj288-ai-image-detector-backend.hf.space/predict",
-    //     { method: "POST", body: formData }
-    //   );
-    //   const data = await res.json();
-    //   setResult(data);
-    // } catch (err) {
-    //   console.error(err);
-    //   setResult({ error: "Analysis failed. Please try again." });
-    // }
-    // setLoading(false);
     try {
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_API}/predict`,
